@@ -14,7 +14,7 @@ export class Follower {
         x = x - this.posX
         y = -y + this.posY
         let z = Math.atan(y / x)
-        if (z < 0 && y > 0) {
+        if (z < 0 && y >= 0) {
             z = Math.PI + z
         } else if (z > 0 && y < 0) {
             z = Math.PI + z
