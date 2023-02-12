@@ -1,0 +1,14 @@
+{
+  "name": "game",
+  "version": "1.0.0",
+  "description": "",
+
+  "scripts": {
+    "build": "npx parcel src/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "parcel": "^2.8.3"
+  }
+}
