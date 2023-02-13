@@ -5,6 +5,7 @@ export class Player {
     // Canvas
     canvas: HTMLCanvasElement
     // Player
+    life: number = 5
     posX: number = 100
     posY: number = 100
     minX: number
@@ -22,13 +23,6 @@ export class Player {
     }
     // Target
     target: Target
-    // Bullets
-    shoot: ReturnType<typeof setInterval>
-    bullets: Bullet[] = []
-    bulletsColor: string = "purple"
-    bulletsSize: number = 3
-    bulletSpeed: number = 10
-    bulletFrequency: number = 100
 
     constructor(canvas: HTMLCanvasElement) {
         // Attributs
@@ -39,19 +33,15 @@ export class Player {
         this.canvas = canvas
         this.target = new Target(this.canvas)
         // Events
-        document.addEventListener("mousedown", this.startShoot.bind(this))
-        document.addEventListener("mouseup", this.stopShoot.bind(this))
         document.addEventListener("keydown", this.addDirection.bind(this))
         document.addEventListener("keyup", this.deleteDirection.bind(this))
 
     }
 
     draw(ctx: any): void {
-        this.move()
         ctx.fillStyle = this.color
         ctx.fillRect(this.posX - this.size / 2, this.posY - this.size / 2, this.size, this.size);
         this.target.draw(ctx)
-        this.drawBullets(ctx)
     }
 
     private addDirection(e: KeyboardEvent): void {
@@ -66,7 +56,7 @@ export class Player {
         }
     }
 
-    private move(): void {
+    move(): void {
         let twoDirectionSpeed = Math.sqrt((this.speed * this.speed) / 2)
         if (this.direction.up) {
             if (this.direction.left) {
@@ -121,42 +111,7 @@ export class Player {
         }
     }
 
-    private startShoot(): void {
-        this.shoot = setInterval(() => {
-            this.initBullet()
-        }, this.bulletFrequency)
-    }
-
-    private stopShoot(): void {
-        clearInterval(this.shoot)
-    }
-
-    private initBullet(): void {
-        let x = this.target.posX - this.posX
-        let y = -this.target.posY + this.posY
-        let z = Math.atan(y / x)
-        if (z < 0 && y > 0) {
-            z = Math.PI + z
-        } else if (z > 0 && y < 0) {
-            z = Math.PI + z
-        } else if (z < 0 && x > 0) {
-            z = Math.PI * 2 + z
-        }
-        let speedX = this.bulletSpeed * Math.cos(z)
-        let speedY = -this.bulletSpeed * Math.sin(z)
-        let bullet = new Bullet(speedX, speedY, this.posX, this.posY, this.bulletsColor, this.bulletsSize, this.bulletSpeed, this.canvas)
-        this.bullets.push(bullet)
-    }
-
-    private drawBullets(ctx: any) {
-        ctx.fillStyle = this.bulletsColor
-        this.bullets.forEach((bullet, key) => {
-            if (bullet.move()) {
-                bullet.draw(ctx)
-            } else {
-                delete this.bullets[key]
-
-            }
-        })
+    hitBox(): number[] {
+        return [this.posX - this.size / 2, this.posX + this.size / 2, this.posY - this.size / 2, this.posY + this.size / 2]
     }
 }
