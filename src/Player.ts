@@ -40,10 +40,13 @@ export class Player {
 
     }
 
-    draw(ctx: any): void {
+    draw(ctx: any): void {     
         ctx.fillStyle = this.color
         ctx.fillRect(this.posX - this.size / 2, this.posY - this.size / 2, this.size, this.size);
         this.target.draw(ctx)
+        ctx.font = "10pt Arial";
+        ctx.fillStyle = "white"
+        ctx.fillText(`Life: ${this.life}`, 10, 20);
     }
 
     private addDirection(e: KeyboardEvent): void {

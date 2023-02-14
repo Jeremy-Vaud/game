@@ -47,14 +47,19 @@ const main = setInterval(() => {
 }, 1000 / 60)
 
 const generateFollowers = setInterval(() => {
-    enemies.follower.push(new Follower(canvas.width * Math.random(), -50, "brown"))
-    enemies.follower.push(new Follower(canvas.width * Math.random(), -50, "olive"))
-    enemies.follower.push(new Follower(canvas.width * Math.random(), canvas.height + 50, "navy"))
-    enemies.follower.push(new Follower(canvas.width * Math.random(), canvas.height + 50, "darkorange"))
-    enemies.follower.push(new Follower(-50, canvas.height * Math.random(), "mediumvioletred"))
-    enemies.follower.push(new Follower(-50, canvas.height * Math.random(), "goldenrod"))
-    enemies.follower.push(new Follower(canvas.width + 50, canvas.height * Math.random(), "slategrey"))
-    enemies.follower.push(new Follower(canvas.width + 50, canvas.height * Math.random(), "skyblue"))
+    let loop = 1 + Math.trunc(score / 100)
+    for (let i = 0; i < loop; i++) {
+        enemies.follower.push(new Follower("top", canvas))
+        if (score > 10) {
+            enemies.follower.push(new Follower("bottom", canvas))
+        }
+        if (score > 30) {
+            enemies.follower.push(new Follower("left", canvas))
+        }
+        if (score > 60) {
+            enemies.follower.push(new Follower("right", canvas))
+        }
+    }
 }, 2000)
 
 /*
