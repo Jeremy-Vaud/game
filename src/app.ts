@@ -22,6 +22,8 @@ const enemies: { follower: Follower[] } = { follower: [] }
 const explosions: Explosion[] = []
 // Game over
 let gameOver: boolean = false
+// Score
+let score = 0
 
 // Events
 document.addEventListener("mousedown", startShoot)
@@ -46,9 +48,13 @@ const main = setInterval(() => {
 
 const generateFollowers = setInterval(() => {
     enemies.follower.push(new Follower(canvas.width * Math.random(), -50, "brown"))
+    enemies.follower.push(new Follower(canvas.width * Math.random(), -50, "olive"))
     enemies.follower.push(new Follower(canvas.width * Math.random(), canvas.height + 50, "navy"))
+    enemies.follower.push(new Follower(canvas.width * Math.random(), canvas.height + 50, "darkorange"))
     enemies.follower.push(new Follower(-50, canvas.height * Math.random(), "mediumvioletred"))
+    enemies.follower.push(new Follower(-50, canvas.height * Math.random(), "goldenrod"))
     enemies.follower.push(new Follower(canvas.width + 50, canvas.height * Math.random(), "slategrey"))
+    enemies.follower.push(new Follower(canvas.width + 50, canvas.height * Math.random(), "skyblue"))
 }, 2000)
 
 /*
@@ -64,6 +70,7 @@ function updateFollowers(): void {
         })
         if (enemy.life <= 0) {
             explosions.push(new Explosion(enemy.posX, enemy.posY, enemy.color))
+            score++
             delete enemies.follower[key]
         } else {
             if (player.life > 0) {
@@ -72,7 +79,7 @@ function updateFollowers(): void {
                 enemy.move(canvas.width / 2, canvas.height + 100)
             }
             let playerHitBox = player.hitBox()
-            if (enemy.isTouch(playerHitBox)) {
+            if (player.life > 0 && enemy.isTouch(playerHitBox)) {
                 player.life -= enemies.follower[key].damage
                 explosions.push(new Explosion(enemy.posX, enemy.posY, enemy.color))
                 delete enemies.follower[key]
@@ -94,11 +101,12 @@ function updateExplosions() {
 
 function playGameOver() {
     ctx.fillStyle = "white"
-    ctx.font = "20pt Arial";
+    ctx.font = "40pt Arial";
     ctx.textBaseline = 'middle'
     ctx.textAlign = "center";
     ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2);
-
+    ctx.font = "15pt Arial";
+    ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 30);
     if (!gameOver) {
         gameOver = true
         explosions.push(new Explosion(player.posX, player.posY, player.color))

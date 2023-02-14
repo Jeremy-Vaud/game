@@ -6,8 +6,8 @@ export class Player {
     canvas: HTMLCanvasElement
     // Player
     life: number = 5
-    posX: number = 100
-    posY: number = 100
+    posX: number
+    posY: number
     minX: number
     minY: number
     maxX: number
@@ -26,6 +26,8 @@ export class Player {
 
     constructor(canvas: HTMLCanvasElement) {
         // Attributs
+        this.posX = canvas.width/2
+        this.posY = canvas.height/2
         this.minX = this.size / 2
         this.minY = this.size / 2
         this.maxX = canvas.width - this.size / 2

@@ -2,7 +2,7 @@ export class Target {
     posX : number = 0
     posY : number = 0
     color : string = "red"
-    size : number = 3
+    size : number = 5
 
 
     constructor(canvas : HTMLCanvasElement) {
