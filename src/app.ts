@@ -2,6 +2,7 @@ import { Player } from "./Player";
 import { Follower } from "./Follower";
 import { Explosion } from "./Explosion";
 import { Bullet } from "./Bullet";
+import { Bomb } from "./Bomb";
 
 // Canva
 const canvas: any = document.getElementById("canvas");
@@ -16,6 +17,9 @@ const playerBulletsSize: number = 3
 const playerBulletSpeed: number = 10
 const playerBulletsFrequency: number = 100
 const playerBulletsDamage: number = 1
+// Player circle
+const playerBombs: Bomb[] = []
+let playerNumberBoms = 3
 // Enemies
 const enemies: { follower: Follower[] } = { follower: [] }
 // Explosions
@@ -28,11 +32,13 @@ let score = 0
 // Events
 document.addEventListener("mousedown", startShoot)
 document.addEventListener("mouseup", stopShoot)
+document.addEventListener("keydown", launchBomb)
 
 // Main
 const main = setInterval(() => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     player.move()
+    updateBombs()
     drawPlayerBullets()
     updateFollowers()
     if (player.life <= 0) {
@@ -71,6 +77,11 @@ function updateFollowers(): void {
         playerBullets.forEach((bullet, key) => {
             if (enemy.isHit(bullet.posX, bullet.posY, bullet.damage)) {
                 delete playerBullets[key]
+            }
+        })
+        playerBombs.forEach((bomb, key) => {
+            if (enemy.distanceFromPoint(bomb.posX, bomb.posY) <= bomb.size) {
+                enemy.life = 0
             }
         })
         if (enemy.life <= 0) {
@@ -152,5 +163,24 @@ function drawPlayerBullets() {
         } else {
             delete playerBullets[key]
         }
+    })
+}
+
+function launchBomb(e: KeyboardEvent): void {
+    if (playerNumberBoms > 0) {
+        if (e.key === " ") {
+            playerBombs.push(new Bomb(player.posX, player.posY))
+            playerNumberBoms--
+        }
+    }
+}
+
+function updateBombs(): void {
+    playerBombs.forEach((bomb, key) => {
+        if (bomb.maxSize === bomb.size) {
+            delete playerBombs[key]
+        }
+        bomb.expand()
+        bomb.draw(ctx)
     })
 }

@@ -83,4 +83,10 @@ export class Follower {
         }
 
     }
+
+    distanceFromPoint(posX, posY) {
+        const x = posX - this.posX
+        const y = posY - this.posY
+        return Math.sqrt(x * x + y * y)
+    }
 }

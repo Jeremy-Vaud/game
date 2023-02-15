@@ -9,7 +9,7 @@ export class Explosion {
         this.posX = posX
         this.posY = posY
         this.color = color
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 100; i++) {
             this.particles.push({ posX: this.posX, posY: this.posY, speedX: (Math.random() - 0.5) * 10 * Math.random(), speedY: (Math.random() - 0.5) * 10 * Math.random() })
         }
     }

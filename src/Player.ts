@@ -5,7 +5,7 @@ export class Player {
     // Canvas
     canvas: HTMLCanvasElement
     // Player
-    life: number = 5
+    life: number = 3
     posX: number
     posY: number
     minX: number
