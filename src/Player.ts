@@ -1,5 +1,4 @@
 import { Target } from "./Target";
-import { Bullet } from "./Bullet";
 
 export class Player {
     // Canvas
@@ -21,6 +20,7 @@ export class Player {
         right: false,
         left: false
     }
+    bombs: number = 3
     // Target
     target: Target
 
@@ -46,7 +46,7 @@ export class Player {
         this.target.draw(ctx)
         ctx.font = "10pt Arial";
         ctx.fillStyle = "white"
-        ctx.fillText(`Life: ${this.life}`, 10, 20);
+        ctx.fillText(`Life: ${this.life} Bombs: ${this.bombs}`, 10, 20);
     }
 
     private addDirection(e: KeyboardEvent): void {

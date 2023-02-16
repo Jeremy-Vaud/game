@@ -19,12 +19,12 @@ const playerBulletsFrequency: number = 100
 const playerBulletsDamage: number = 1
 // Player circle
 const playerBombs: Bomb[] = []
-let playerNumberBoms = 3
 // Enemies
 const enemies: { follower: Follower[] } = { follower: [] }
+let nbrFollowers: number = 100
 // Explosions
 const explosions: Explosion[] = []
-// Game over
+// Game
 let gameOver: boolean = false
 // Score
 let score = 0
@@ -53,17 +53,21 @@ const main = setInterval(() => {
 }, 1000 / 60)
 
 const generateFollowers = setInterval(() => {
-    let loop = 1 + Math.trunc(score / 100)
+    let loop = 1 + Math.trunc(nbrFollowers/50)
     for (let i = 0; i < loop; i++) {
         enemies.follower.push(new Follower("top", canvas))
-        if (score > 10) {
+        nbrFollowers--
+        if (nbrFollowers < 97) {
             enemies.follower.push(new Follower("bottom", canvas))
+            nbrFollowers--
         }
-        if (score > 30) {
+        if (nbrFollowers < 90) {
             enemies.follower.push(new Follower("left", canvas))
+            nbrFollowers--
         }
-        if (score > 60) {
+        if (score > 70) {
             enemies.follower.push(new Follower("right", canvas))
+            nbrFollowers--
         }
     }
 }, 2000)
@@ -167,10 +171,10 @@ function drawPlayerBullets() {
 }
 
 function launchBomb(e: KeyboardEvent): void {
-    if (playerNumberBoms > 0) {
+    if (player.bombs > 0) {
         if (e.key === " ") {
             playerBombs.push(new Bomb(player.posX, player.posY))
-            playerNumberBoms--
+            player.bombs--
         }
     }
 }
